@@ -3,10 +3,14 @@
 </template>
 
 <script>
-import StPlotTemplate from '@/components/Templates/StPlotTemplate'
+import StPlotTemplate from "@/components/Templates/StPlotTemplate";
 
 export default {
-    name: 'Home'
-}
+	name: "Home",
+
+	component: {
+		StPlotTemplate
+	}
+};
 </script>
 

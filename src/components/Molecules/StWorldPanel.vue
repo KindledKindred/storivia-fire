@@ -6,14 +6,14 @@
 		v-flex(xs2 md2)
 			slot(name="world_light")
 		v-flex(xs2 md2)
-			slot(name="world_spund")
+			slot(name="world_sound")
 		v-flex(xs2 md1)
 			StEditButton
 		v-flex(xs2 md1)
 			StDeleteButton
 
 		v-flex(xs12 md12)
-			slot(name="line_note")
+			slot(name="world_note")
 </template>
 
 <script>
@@ -21,6 +21,6 @@ import StEditButton from "@/components/Atoms/StEditButton";
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-  name: "StCharacterPanel"
+	name: "StWorldPanel"
 };
 </script>

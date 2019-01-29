@@ -15,14 +15,14 @@
 		v-flex(xs3 md2)
 			slot(name="character_sex")
 		v-flex(xs6 md8)
-			slot(name="character_line_note")
+			slot(name="character_note")
 </template>
 
 <script>
 import StEditButton from "@/components/Atoms/StEditButton";
-import StEditDelete from "@/components/Atoms/StDeleteButton";
+import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-  name: "StCharacterPanel"
+	name: "StCharacterPanel"
 };
 </script>
