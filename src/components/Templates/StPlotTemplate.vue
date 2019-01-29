@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import StNavigation from '@/components/Molecules/StNavigation'
 import StActionBoard from "@/components/Organisms/StActionBoard";
 import StCharacterBoard from "@/components/Organisms/StCharacterBoard";
 import StWorldBoard from "@/components/Organisms/StWorldBoard";
@@ -15,6 +16,14 @@ import StFeedbackBoard from "@/components/Organisms/StFeedbackBoard";
 
 export default {
   name: "StPlotTemplate",
+
+  components: {
+    StActionBoard,
+    StCharacterBoard,
+    StWorldBoard,
+    StNoteBoard,
+    StFeedbackBoard
+  },
 
   data() {
     return {

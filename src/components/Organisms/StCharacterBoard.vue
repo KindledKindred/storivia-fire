@@ -68,25 +68,31 @@ export default {
         "7. 偽主人公"
       ],
 
-      newTodoName: "",
-      showTodoType: "all",
-      todos: []
+      characters: []
     };
   },
 
   created() {
-    this.database = db;
-    this.charactersRef = this.db.ref("characters");
-
-    let _this = this;
-    this.todosRef.on("value", function(snapshot) {
-      _this.todos = snapshot.val(); // データに変化が起きたときに再取得する
-    });
+    db.collection('users/${uid}/characters').get()
+    .then((querySnapshot) => {
+      this.loading = false
+      querySnapshot.forEach((doc) => {
+        let data = {
+          'id': doc.id,
+          'name': doc.data().name,
+          'role': doc.data().role,
+          'age': doc.data().age,
+          'sex': doc.data().sex,
+          'note': doc.data().note
+        }
+        this.characters.push(data)
+      })
+    })
   },
 
   methods: {
     addCharacter() {
-      db.collection("characters").push({
+      db.collection('users/${uid}/characters').push({
         name: this.name,
         role: this.role,
         age: this.age,
@@ -97,11 +103,11 @@ export default {
     updateCharacter: function(character, key) {
       let updates = {};
       updates["/characters/" + key] = character;
-      this.database.ref().update(updates);
+      db.ref().update(updates);
     },
     deleteCharacter: function(key) {
-      this.database
-        .ref("characters")
+      db
+        .ref('users/${uid}/characters')
         .child(key)
         .remove();
     }

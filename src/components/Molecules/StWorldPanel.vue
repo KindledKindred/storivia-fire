@@ -18,7 +18,7 @@
 
 <script>
 import StEditButton from "@/components/Atoms/StEditButton";
-import StEditDelete from "@/components/Atoms/StDeleteButton";
+import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
   name: "StCharacterPanel"

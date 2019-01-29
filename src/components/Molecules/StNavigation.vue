@@ -7,12 +7,13 @@
 			v-btn(flat v-if="userLoggedIn") World
 			v-spacer
 			v-btn(flat  v-if="userLoggedIn" @click="logout") Sign out
+</template>
 
 <script>
 import firebase from '@/plugins/firebase'
 
 export default {
-	name: 'StPlotNavigation',
+	name: 'StNavigation',
 
 	created() {
 		firebase.onAuth()

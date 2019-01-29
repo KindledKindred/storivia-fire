@@ -6,7 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: {}, // アプリケーション自体はユーザーが個々で使用するため1人のみ管理
-    loggedIn: false
+    loggedIn: false,
+
+    function31s: [], // Storiviaからコピペ
+    roles:[], // Storiviaからコピペ
   },
 
   mutations: {
