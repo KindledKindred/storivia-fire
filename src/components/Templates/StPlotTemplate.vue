@@ -1,13 +1,14 @@
 <template lang="pug">
 	v-layout(row wrap)
-		component(xs12 md9 :is='currentBoard')
+		//- component(xs12 md9 :is='currentBoard')
+		StActionBoard
 		v-layout(xs12 md3)
 			StNoteBoard
 			StFeedbackBoard
 </template>
 
 <script>
-import StNavigation from '@/components/Molecules/StNavigation'
+import StNavigation from "@/components/Molecules/StNavigation";
 import StActionBoard from "@/components/Organisms/StActionBoard";
 import StCharacterBoard from "@/components/Organisms/StCharacterBoard";
 import StWorldBoard from "@/components/Organisms/StWorldBoard";

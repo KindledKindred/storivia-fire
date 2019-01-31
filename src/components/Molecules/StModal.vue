@@ -1,6 +1,5 @@
 <template lang="pug" :ref="st_dialog">
 	v-app
-		v-btn(@click="openModal") Open1
 		v-dialog(@close="closeModal" v-model="show_modal" width="500")
 			v-card
 				slot
@@ -17,11 +16,11 @@ export default {
   },
 
   methods: {
-    openModal: function() {
-      show_modal = true;
+    openModal() {
+      this.show_modal = true;
     },
-    closeModal: function() {
-      show_modal = false;
+    closeModal() {
+      this.show_modal = false;
     }
   }
 };

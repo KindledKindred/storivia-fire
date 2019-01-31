@@ -43,6 +43,11 @@ import StEditButton from "@/components/Atoms/StEditButton";
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-	name: "StActionPanel"
+  name: "StActionPanel",
+
+  components: {
+    StEditButton,
+    StDeleteButton
+  }
 };
 </script>

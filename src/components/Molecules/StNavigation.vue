@@ -1,6 +1,7 @@
 <template lang="pug">
 	v-toolbar
-		v-toolbar-title STORIVIA
+		v-toolbar-title.headline.text-uppercase
+			span STORIVIA
 		v-toolbar-items.hidden-sm-and-down
 			v-btn(flat v-if="userLoggedIn" @click="transBoard") Action
 			v-btn(flat v-if="userLoggedIn") Character
@@ -10,29 +11,29 @@
 </template>
 
 <script>
-import firebase from '@/plugins/firebase'
+import firebase from "@/plugins/firebase";
 
 export default {
-	name: 'StNavigation',
+  name: "StNavigation",
 
-	created() {
-		firebase.onAuth()
-	},
+  created() {
+    firebase.onAuth();
+  },
 
-	computed: {
-		user() {
-			return this.$store.getters.user
-		},
-		userLoggedIn() {
-			// ログイン時は true
-			return this.$store.getters.isSignedIn
-		}
-	},
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    userLoggedIn() {
+      // ログイン時は true
+      return this.$store.getters.isSignedIn;
+    }
+  },
 
-	methods: {
-		logout() {
-			firebase.logout()
-		}
-	}
-}
+  methods: {
+    logout() {
+      firebase.logout();
+    }
+  }
+};
 </script>

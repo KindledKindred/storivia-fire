@@ -1,7 +1,7 @@
 <template lang="pug">
 	v-card
 		//- TODO: v-ifやv-showでnoteの表示を切り替えるデータを子コンポーネントへpropする
-		StactionPanel(v-for='action in this.getActionSortByFunction31Id' :action_id="action.id")
+		StActionPanel(v-for='action in this.getActionsSortByFunction31Id' :action_id="action.id")
 			template(slot="fucntion31_name") {{ getFunction31NameById(action.function31_id) }}
 			template(slot="character_name") {{ getCharacterNameById(action.character_id) }}
 			template(slot="world_name") {{ getWorldNameById(action.world_id) }}
@@ -9,34 +9,30 @@
 			template(slot="world_sound") {{ getWorldSoundById(action.world_id) }}
 			template(slot="action_abstract") {{ action.abstract }}
 			template(slot="action_note") {{ action.note }}
-		StModal
+		v-btn(@click="refToModalOpen") 追加
+		StModal(ref="modal")
 			v-form(
-			ref="form"
+				ref="form"
 			)
 				v-select(
 					v-model="function31_id"
+					:items="function31s"
+					item-value="id"
+					item-text="name"
 					label="機能"
 				)
-					option(
-						v-for="function31 in function31s"
-						:key="function31.id"
-					) {{ function31.name }}
 				v-select(
 					v-model="character_id"
+					:items="characters"
+					item-text="name"
 					label="行動者"
 				)
-					option(
-						v-for="character in characters"
-						:key="character.id"
-					) {{ character.name }}
 				v-select(
 					v-model="world_id"
+					:items="worlds"
+					item-text="name"
 					label="場面"
 				)
-					option(
-						v-for="world in worlds"
-						:key="world.id"
-					) {{ world.name }}
 				//- v-model はカスタム要素では使用不可
 				v-text-field(
 					:value="abstract"
@@ -49,7 +45,7 @@
 					label="メモ"
 				)
 				v-btn(
-					@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note})"
+					@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); resetActionModal"
 				) 追加
 </template>
 
@@ -60,50 +56,66 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-	name: "StActionBoard",
+  name: "StActionBoard",
 
-	components: {
-		StActionPanel,
-		StModal
-	},
+  components: {
+    StActionPanel,
+    StModal
+  },
 
-	data() {},
+  data() {
+    return {
+      function31_id: "",
+      character_id: "",
+      world_id: "",
+      abstract: "",
+      note: ""
+    };
+  },
 
-	methods: {
-		...mapActions([types.ADD_ACTION])
-	},
+  methods: {
+    ...mapActions([types.ADD_ACTION]),
 
-	computed: {
-		...mapState([
-			"actions",
-			"characters",
-			"worlds",
-			"function31s",
-			"nextActionId",
-			"nextCharacterId",
-			"nextWorldId",
-			"nextWorldId"
-		]),
+    refToModalOpen() {
+      this.$refs.modal.openModal();
+    },
 
-		...mapGetters([
-			"getActionById",
-			"getCharacterById",
-			"getWorldById",
-			"getFunction31ById",
+    resetActionModal() {
+      this.$refs.form.reset();
+    }
+  },
 
-			"getCharacterNameById",
-			"getWorldNameById",
-			"getWorldLightById",
-			"getWorldSoundById",
-			"getFunction31NameById"
-		]),
+  computed: {
+    ...mapState([
+      "actions",
+      "characters",
+      "worlds",
+      "function31s",
+      "nextActionId",
+      "nextCharacterId",
+      "nextWorldId",
+      "nextWorldId"
+    ]),
 
-		// パネル追加時に機能idでソート
-		// _.function は lodash というライブラリのもの
-		// sortByは破壊的(配列を上書きする)な昇順ソート処理
-		getActionsSortByFunction31Id() {
-			return _.sortBy(this.actions, ["function31_id"]);
-		}
-	}
+    ...mapGetters([
+      "getActionById",
+      "getCharacterById",
+      "getWorldById",
+      "getFunction31ById",
+
+      "getCharacterNameById",
+      "getWorldNameById",
+      "getWorldLightById",
+      "getWorldSoundById",
+      "getFunction31NameById"
+    ]),
+
+    // パネル追加時に機能idでソート
+    // _.function は lodash というライブラリのもの
+    // sortByは破壊的(配列を上書きする)な昇順ソート処理
+    getActionsSortByFunction31Id() {
+      return _.sortBy(this.actions, ["function31_id"]);
+    }
+  }
 };
 </script>
