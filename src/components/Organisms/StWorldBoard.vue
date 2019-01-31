@@ -37,13 +37,13 @@
 
 <script>
 import StWorldPanel from "@/components/Molecules/StWorldPanel";
-import StModal from '@/components/Molecules/StModal'
-import * as types from `@/store/mutation-types`
-import { mapState, mapActions } from `vuex`
+import StModal from "@/components/Molecules/StModal";
+import * as types from "@/store/mutation-types";
+import { mapState, mapActions } from "vuex";
 
 export default {
 	name: "StWorldBoard",
-	
+
 	components: {
 		StWorldPanel,
 		StModal

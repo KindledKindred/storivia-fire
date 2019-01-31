@@ -55,13 +55,13 @@
 
 <script>
 import StActionPanel from "@/components/Molecules/StActionPanel";
-import StModal from '@/components/Molecules/StModal'
-import * as types from `@/store/mutation-types`
-import { mapState, mapGetters, mapActions } from `vuex`
+import StModal from "@/components/Molecules/StModal";
+import * as types from "@/store/mutation-types";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
 	name: "StActionBoard",
-	
+
 	components: {
 		StActionPanel,
 		StModal
@@ -75,34 +75,34 @@ export default {
 
 	computed: {
 		...mapState([
-			'actions',
-			'characters',
-			'worlds',
-			'function31s',
-			'nextActionId',
-			'nextCharacterId',
-			'nextWorldId',
-			'nextWorldId',
-			]),
+			"actions",
+			"characters",
+			"worlds",
+			"function31s",
+			"nextActionId",
+			"nextCharacterId",
+			"nextWorldId",
+			"nextWorldId"
+		]),
 
 		...mapGetters([
-			'getActionById',
-			'getCharacterById',
-			'getWorldById',
-			'getFunction31ById',
+			"getActionById",
+			"getCharacterById",
+			"getWorldById",
+			"getFunction31ById",
 
-			'getCharacterNameById',
-			'getWorldNameById',
-			'getWorldLightById',
-			'getWorldSoundById',
-			'getFunction31NameById'
+			"getCharacterNameById",
+			"getWorldNameById",
+			"getWorldLightById",
+			"getWorldSoundById",
+			"getFunction31NameById"
 		]),
 
 		// パネル追加時に機能idでソート
 		// _.function は lodash というライブラリのもの
 		// sortByは破壊的(配列を上書きする)な昇順ソート処理
-		getActionsSortByFunction31Id () {
-			return _.sortBy(this.actions, ['function31_id'])
+		getActionsSortByFunction31Id() {
+			return _.sortBy(this.actions, ["function31_id"]);
 		}
 	}
 };

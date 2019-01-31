@@ -46,13 +46,13 @@
 
 <script>
 import StCharacterPanel from "@/components/Molecules/StCharacterPanel";
-import StModal from '@/components/Molecules/StModal'
-import * as types from `@/store/mutation-types`
-import { mapState, mapGetters, mapActions } from `vuex`
+import StModal from "@/components/Molecules/StModal";
+import * as types from "@/store/mutation-types";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
 	name: "StCharacterBoard",
-	
+
 	components: {
 		StCharacterPanel,
 		StModal
@@ -69,11 +69,11 @@ export default {
 			"getRoleById",
 
 			"getCharacterNameById",
-			"getRoleNameById",
+			"getRoleNameById"
 		]),
 		// _.sortByはlodashライブラリによる破壊的昇順ソート
 		getCharactersSortByRoleId() {
-			return _.sortBy(this.characters, ["role_id"])
+			return _.sortBy(this.characters, ["role_id"]);
 		}
 	}
 };
