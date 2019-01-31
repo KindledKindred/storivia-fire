@@ -9,34 +9,38 @@
 			template(slot="character_note") {{ character.note }}
 		StModal
 			v-form(
-    	ref="form"
-  		)
-    		v-text-field(
-    	  	v-model="name"
-      		label="名前"
+			ref="form"
+			)
+				v-text-field(
+					:value="name"
+					@change="v => name = v"
+					label="名前"
 				)
 				v-select(
-      		v-model="role_id"
-      		label="役割"
+					v-model="role_id"
+					label="役割"
 				)
 					option(
 						v-for="role in roles"
 						:key="role.id"
 					) {{ role.name }}
 				v-text-field(
-    	  	v-model="age"
-      		label="年齢"
+					:value="age"
+					@change="v => age = v"
+					label="年齢"
 				)
 				v-text-field(
-    	  	v-model="sex"
-      		label="性別"
+					:value="sex"
+					@change="v => sex = v"
+					label="性別"
 				)
 				v-text-field(
-    	  	v-model="note"
-      		label="メモ"
+					:value="note"
+					@change="v => note = v"
+					label="メモ"
 				)
-    		v-btn(
-      		@click="ADD_CHARACTER({name, role_id, age, sex, app, note})"
+				v-btn(
+					@click="ADD_CHARACTER({name, role_id, age, sex, app, note})"
 				) 追加
 </template>
 
@@ -47,30 +51,30 @@ import * as types from `@/store/mutation-types`
 import { mapState, mapGetters, mapActions } from `vuex`
 
 export default {
-  name: "StCharacterBoard",
-  
-  components: {
-    StCharacterPanel,
-    StModal
-  },
+	name: "StCharacterBoard",
+	
+	components: {
+		StCharacterPanel,
+		StModal
+	},
 
 	methods: {
-    ...mapActions([types.ADD_CHARACTER])
-  },
+		...mapActions([types.ADD_CHARACTER])
+	},
 
-  computed: {
-    ...mapState(["characters", "roles", "nextCharacterId"]),
-    ...mapGetters([
-      "getCharacterById",
-      "getRoleById",
+	computed: {
+		...mapState(["characters", "roles", "nextCharacterId"]),
+		...mapGetters([
+			"getCharacterById",
+			"getRoleById",
 
-      "getCharacterNameById",
-      "getRoleNameById",
-    ]),
-    // _.sortByはlodashライブラリによる破壊的昇順ソート
-    getCharactersSortByRoleId() {
-      return _.sortBy(this.characters, ["role_id"])
-    }
-  }
+			"getCharacterNameById",
+			"getRoleNameById",
+		]),
+		// _.sortByはlodashライブラリによる破壊的昇順ソート
+		getCharactersSortByRoleId() {
+			return _.sortBy(this.characters, ["role_id"])
+		}
+	}
 };
 </script>

@@ -11,42 +11,45 @@
 			template(slot="action_note") {{ action.note }}
 		StModal
 			v-form(
-    	ref="form"
-  		)
+			ref="form"
+			)
 				v-select(
-      		v-model="function31_id"
-      		label="機能"
+					v-model="function31_id"
+					label="機能"
 				)
 					option(
 						v-for="function31 in function31s"
 						:key="function31.id"
 					) {{ function31.name }}
 				v-select(
-      		v-model="character_id"
-      		label="行動者"
+					v-model="character_id"
+					label="行動者"
 				)
 					option(
 						v-for="character in characters"
 						:key="character.id"
 					) {{ character.name }}
 				v-select(
-      		v-model="world_id"
-      		label="場面"
+					v-model="world_id"
+					label="場面"
 				)
 					option(
 						v-for="world in worlds"
 						:key="world.id"
 					) {{ world.name }}
+				//- v-model はカスタム要素では使用不可
 				v-text-field(
-    	  	v-model="abstract"
-      		label="要約"
+					:value="abstract"
+					@change="v => abstract = v"
+					label="要約"
 				)
 				v-text-field(
-    	  	v-model="note"
-      		label="メモ"
+					:value="note"
+					@change="v => note = v"
+					label="メモ"
 				)
-    		v-btn(
-      		@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note})"
+				v-btn(
+					@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note})"
 				) 追加
 </template>
 
@@ -57,20 +60,20 @@ import * as types from `@/store/mutation-types`
 import { mapState, mapGetters, mapActions } from `vuex`
 
 export default {
-  name: "StActionBoard",
-  
-  components: {
-    StActionPanel,
-    StModal
-  },
+	name: "StActionBoard",
+	
+	components: {
+		StActionPanel,
+		StModal
+	},
 
 	data() {},
 
 	methods: {
-    ...mapActions([types.ADD_ACTION])
-  },
+		...mapActions([types.ADD_ACTION])
+	},
 
-  computed: {
+	computed: {
 		...mapState([
 			'actions',
 			'characters',

@@ -4,34 +4,34 @@
 			template(slot="world_name") {{ world.name }}
 			template(slot="world_light") {{ world.light }}
 			template(slot="world_sound") {{ world.sound }}
-      template(slot="world_note") {{ world.note }}
+			template(slot="world_note") {{ world.note }}
 		StModal
 			v-form(
-    	ref="form"
-  		)
-    		v-text-field(
-    	  	v-model="name"
-      		label="名前"
+			ref="form"
+			)
+				v-text-field(
+					:value="name"
+					@change="v => name = v"
+					label="名前"
 				)
 				v-slider(
-      		v-model="light"
-      		step="5"
-          label="光量"
+					v-model="light"
+					step="5"
+					label="光量"
 				)
 				v-slider(
-    	  	v-model="sound"
-      		step="5"
-          ticks="always"
-          label="音量"
+					v-model="sound"
+					step="5"
+					ticks="always"
+					label="音量"
 				)
 				v-text-field(
-    	  	v-model="note"
-          step="5"
-          ticks="always"
-      		label="メモ"
+					:value="note"
+					@change="v => note = v"
+					label="メモ"
 				)
-    		v-btn(
-      		@click="ADD_WORLD({name, light, sound, note})"
+				v-btn(
+					@click="ADD_WORLD({name, light, sound, note})"
 				) 追加
 </template>
 
@@ -42,19 +42,19 @@ import * as types from `@/store/mutation-types`
 import { mapState, mapActions } from `vuex`
 
 export default {
-  name: "StWorldBoard",
-  
-  components: {
-    StWorldPanel,
-    StModal
-  },
+	name: "StWorldBoard",
+	
+	components: {
+		StWorldPanel,
+		StModal
+	},
 
 	methods: {
-    ...mapActions([types.ADD_WORLD])
-  },
+		...mapActions([types.ADD_WORLD])
+	},
 
-  computed: {
-    ...mapState(["worlds", "nextWorldId"])
-  }
+	computed: {
+		...mapState(["worlds", "nextWorldId"])
+	}
 };
 </script>
