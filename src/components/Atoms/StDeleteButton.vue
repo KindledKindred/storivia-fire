@@ -1,11 +1,11 @@
 <template lang="pug">
-	v-btn(flat)
+	v-btn(icon)
 		v-icon delete
 </template>
 
 <script>
 export default {
-  name: "StDeleteButton"
+	name: "StDeleteButton"
 };
 </script>
 

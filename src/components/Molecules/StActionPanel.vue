@@ -1,53 +1,56 @@
 <template lang="pug">
-	//- Laptop    : 2 rows
-	//- SmartPhone: 4 rows
+//- Laptop    : 2 rows
+//- SmartPhone: 4 rows
+v-card(mb-4)
 	v-layout(row wrap)
 		//- 機能
-		v-flex(xs8 md3)
-			slot(name="function31_name")
-
-		//- 編集・削除 ※スマートフォンでのみ表示
-		v-flex(xs2 hidden-sm-and-up)
-			StEditButton
-		v-flex(xs2 hidden-sm-and-up)
-			StDeleteButton
-		
+		v-flex(xs5)
+			v-card-text
+				slot(name="function31_name")
 		//- キャラクター
-		v-flex(xs6 md6)
-			slot(name="character_name")
-		
-		//- 編集・削除 ※パソコンでのみ表示
-		v-flex(md1 hidden-xs-and-down)
-			StEditButton
-		v-flex(md1 hidden-xs-and-down)
+		v-flex(xs5)
+			v-card-text
+				slot(name="character_name")
+		//- 削除
+		v-flex(xs2)
 			StDeleteButton
 		
 		//- 場面
-		v-flex(xs6 md3)
-			slot(name="world_name")
-		v-flex(xs3 md2)
+		v-flex(xs8)
+			v-card-text
+				slot(name="world_name")
+		v-flex(xs4)
+			v-icon wb_incandescent
 			slot(name="world_light")
-		v-flex(xs3 md2)
+			v-icon volume_up
 			slot(name="world_sound")
 
 		//- 要約
-		v-flex(xs12 md5)
-			slot(name="action_abstract")
+		v-flex(xs10)
+			v-card-text
+				slot(name="action_abstract")
+		v-btn(xs2 icon @click="show=!show")
+			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
 		
-		v-flex(xs12 md12)
-			slot(name="action_note")
+		v-flex(xs12)
+			v-card-text(v-show="show")
+				slot(name="action_note")
 </template>
 
 <script>
-import StEditButton from "@/components/Atoms/StEditButton";
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-  name: "StActionPanel",
+	name: "StActionPanel",
 
-  components: {
-    StEditButton,
-    StDeleteButton
-  }
+	components: {
+		StDeleteButton
+	},
+
+	data() {
+		return {
+			show: false
+		};
+	}
 };
 </script>

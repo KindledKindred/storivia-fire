@@ -1,10 +1,12 @@
 <template lang="pug">
-	v-layout(row wrap)
-		//- component(xs12 md9 :is='currentBoard')
-		StActionBoard
-		v-layout(xs12 md3)
-			StNoteBoard
-			StFeedbackBoard
+	v-app
+		StNavigation(:currentBoard="currentBoard" @trans="transBoard")
+		v-layout(row wrap)
+			v-flex(sm8)
+				component(:is="currentBoard")
+			v-flex(sm4)
+				StNoteBoard
+				StFeedbackBoard
 </template>
 
 <script>
@@ -16,20 +18,27 @@ import StNoteBoard from "@/components/Organisms/StNoteBoard";
 import StFeedbackBoard from "@/components/Organisms/StFeedbackBoard";
 
 export default {
-  name: "StPlotTemplate",
+	name: "StPlotTemplate",
 
-  components: {
-    StActionBoard,
-    StCharacterBoard,
-    StWorldBoard,
-    StNoteBoard,
-    StFeedbackBoard
-  },
+	components: {
+		StNavigation,
+		StActionBoard,
+		StCharacterBoard,
+		StWorldBoard,
+		StNoteBoard,
+		StFeedbackBoard
+	},
 
-  data() {
-    return {
-      currentBoard: "StActionBoard"
-    };
-  }
+	data() {
+		return {
+			currentBoard: "StActionBoard"
+		};
+	},
+
+	methods: {
+		transBoard: function(board) {
+			this.currentBoard = board;
+		}
+	}
 };
 </script>

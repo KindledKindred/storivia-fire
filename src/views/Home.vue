@@ -1,16 +1,16 @@
 <template lang="pug">
-		StPlotTemplate
+	StPlotTemplate
 </template>
 
 <script>
 import StPlotTemplate from "@/components/Templates/StPlotTemplate";
 
 export default {
-  name: "Home",
+	name: "Home",
 
-  components: {
-    StPlotTemplate
-  }
+	components: {
+		StPlotTemplate
+	}
 };
 </script>
 

@@ -1,11 +1,11 @@
 <template lang="pug">
-	v-btn(flat)
+	v-btn(icon)
 		v-icon edit
 </template>
 
 <script>
 export default {
-  name: "StEditButton"
+	name: "StEditButton"
 };
 </script>
 

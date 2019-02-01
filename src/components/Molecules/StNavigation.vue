@@ -2,38 +2,19 @@
 	v-toolbar
 		v-toolbar-title.headline.text-uppercase
 			span STORIVIA
-		v-toolbar-items.hidden-sm-and-down
-			v-btn(flat v-if="userLoggedIn" @click="transBoard") Action
-			v-btn(flat v-if="userLoggedIn") Character
-			v-btn(flat v-if="userLoggedIn") World
-			v-spacer
-			v-btn(flat  v-if="userLoggedIn" @click="logout") Sign out
+		v-toolbar-items
+			span
+			v-btn(flat @click="$emit('trans', 'StActionBoard')") Action
+			v-btn(flat @click="$emit('trans', 'StCharacterBoard')") Character
+			v-btn(flat @click="$emit('trans', 'StWorldBoard')") World
 </template>
 
 <script>
 import firebase from "@/plugins/firebase";
 
 export default {
-  name: "StNavigation",
+	name: "StNavigation",
 
-  created() {
-    firebase.onAuth();
-  },
-
-  computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    userLoggedIn() {
-      // ログイン時は true
-      return this.$store.getters.isSignedIn;
-    }
-  },
-
-  methods: {
-    logout() {
-      firebase.logout();
-    }
-  }
+	props: ["currentBoard"]
 };
 </script>
