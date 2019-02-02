@@ -1,28 +1,38 @@
 <template lang="pug">
-	//- 2 rows
+v-card.pa-4.mt-4
 	v-layout(row wrap)
-		v-flex(xs4 md4)
+		v-flex(xs5)
 			slot(name="character_name")
-		v-flex(xs4 md4)
+		v-flex(xs5)
 			slot(name="character_role")
-		v-flex(xs2 md1)
-			StEditButton
-		v-flex(xs2 md1)
-			StDeleteButton
+		StDeleteButton(xs2)
 		
-		v-flex(xs3 md2)
+		v-flex(xs5)
 			slot(name="character_age")
-		v-flex(xs3 md2)
+		v-flex(xs5)
 			slot(name="character_sex")
-		v-flex(xs6 md8)
-			slot(name="character_note")
+		v-btn(xs2 icon @click="show=!show")
+			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+		
+		v-flex(xs12)
+			v-card-text(v-show="show")
+				slot(name="character_note")
 </template>
 
 <script>
-import StEditButton from "@/components/Atoms/StEditButton";
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-	name: "StCharacterPanel"
+  name: "StCharacterPanel",
+
+  components: {
+    StDeleteButton
+  },
+
+  data() {
+    return {
+      show: false
+    };
+  }
 };
 </script>

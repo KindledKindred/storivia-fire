@@ -1,26 +1,35 @@
 <template lang="pug">
-	//- 2 rows
+v-card.pa-4.mt-4
 	v-layout(row wrap)
 		v-flex(xs4 md6)
-			slot(name="wolrld_name")
+			slot(name="world_name")
 		v-flex(xs2 md2)
 			slot(name="world_light")
 		v-flex(xs2 md2)
 			slot(name="world_sound")
-		v-flex(xs2 md1)
-			StEditButton
-		v-flex(xs2 md1)
-			StDeleteButton
-
-		v-flex(xs12 md12)
-			slot(name="world_note")
+		StDeleteButton(xs2 md1)
+		v-btn(xs2 icon @click="show=!show")
+			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+		
+		v-flex(xs12)
+			v-card-text(v-show="show")
+				slot(name="world_note")
 </template>
 
 <script>
-import StEditButton from "@/components/Atoms/StEditButton";
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-	name: "StWorldPanel"
+  name: "StWorldPanel",
+
+  components: {
+    StDeleteButton
+  },
+
+  data() {
+    return {
+      show: false
+    };
+  }
 };
 </script>

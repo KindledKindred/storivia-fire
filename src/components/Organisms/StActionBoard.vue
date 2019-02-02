@@ -2,8 +2,10 @@
 	v-container(fluid grid-list-lg)
 		//- TODO: v-ifやv-showでnoteの表示を切り替えるデータを子コンポーネントへpropする
 		StActionPanel(
-			v-for='action in this.getActionsSortByFunction31Id'
-			:action_id="action.id"
+			v-for='(action, index) in this.getActionsSortByFunction31Id'
+			:key="action.id"
+			:ref="panel"
+			@delete="DELETE_ACTION"
 		)
 			template(slot="function31_name") {{ getFunction31NameById(action.function31_id) }}
 			template(slot="character_name") {{ getCharacterNameById(action.character_id) }}
@@ -13,8 +15,9 @@
 			template(slot="action_abstract") {{ action.abstract }}
 			template(slot="action_note") {{ action.note }}
 		v-btn(@click="refToModalOpen") 追加
+
 		StModal(ref="modal")
-			v-form(
+			v-form.pa-4(
 				ref="form"
 			)
 				v-select(
@@ -61,66 +64,68 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-	name: "StActionBoard",
+  name: "StActionBoard",
 
-	components: {
-		StActionPanel,
-		StModal
-	},
+  components: {
+    StActionPanel,
+    StModal
+  },
 
-	data() {
-		return {
-			function31_id: "",
-			character_id: "",
-			world_id: "",
-			abstract: "",
-			note: ""
-		};
-	},
+  data() {
+    return {
+      index_key: "",
 
-	methods: {
-		...mapActions([types.ADD_ACTION]),
+      function31_id: "",
+      character_id: "",
+      world_id: "",
+      abstract: "",
+      note: ""
+    };
+  },
 
-		refToModalOpen() {
-			this.$refs.modal.openModal();
-		},
+  methods: {
+    ...mapActions([types.ADD_ACTION]),
 
-		resetActionModal() {
-			this.$refs.form.reset();
-		}
-	},
+    refToModalOpen() {
+      this.$refs.modal.openModal();
+    },
 
-	computed: {
-		...mapState([
-			"actions",
-			"characters",
-			"worlds",
-			"function31s",
-			"nextActionId",
-			"nextCharacterId",
-			"nextWorldId",
-			"nextWorldId"
-		]),
+    resetActionModal() {
+      this.$refs.form.reset();
+    }
+  },
 
-		...mapGetters([
-			"getActionById",
-			"getCharacterById",
-			"getWorldById",
-			"getFunction31ById",
+  computed: {
+    ...mapState([
+      "actions",
+      "characters",
+      "worlds",
+      "function31s",
+      "nextActionId",
+      "nextCharacterId",
+      "nextWorldId",
+      "nextWorldId"
+    ]),
 
-			"getCharacterNameById",
-			"getWorldNameById",
-			"getWorldLightById",
-			"getWorldSoundById",
-			"getFunction31NameById"
-		]),
+    ...mapGetters([
+      "getActionById",
+      "getCharacterById",
+      "getWorldById",
+      "getFunction31ById",
 
-		// パネル追加時に機能idでソート
-		// _.function は lodash というライブラリのもの
-		// sortByは破壊的(配列を上書きする)な昇順ソート処理
-		getActionsSortByFunction31Id() {
-			return _.sortBy(this.actions, ["function31_id"]);
-		}
-	}
+      "getCharacterNameById",
+      "getWorldNameById",
+      "getWorldLightById",
+      "getWorldSoundById",
+      "getFunction31NameById"
+    ]),
+
+    // パネル追加時に機能idでソート
+    // _.function は lodash というライブラリのもの
+    // sortByは破壊的(配列を上書きする)な昇順ソート処理
+    getActionsSortByFunction31Id() {
+      return _.sortBy(this.actions, ["function31_id"]);
+    }
+  }
 };
 </script>

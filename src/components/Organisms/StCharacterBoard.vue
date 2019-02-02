@@ -1,14 +1,19 @@
 <template lang="pug">
-	v-card
-		//- TODO: v-ifやv-showでnoteの表示を切り替えるデータを子コンポーネントへpropする
-		StCharacterPanel(v-for='character in this.getCharacterSortByRoleId' :character_id="character.id")
+	v-container(fluid grid-list-lg)
+		//- key
+		StCharacterPanel(
+			v-for='character in this.getCharactersSortByRoleId'
+			:key="character.id"
+		)
 			template(slot="character_name") {{ character.name }}
 			template(slot="character_role") {{ getRoleNameById(character.role_id) }}
 			template(slot="character_age") {{ character.age }}
 			template(slot="character_sex") {{ character.sex }}
 			template(slot="character_note") {{ character.note }}
-		StModal
-			v-form(
+		v-btn(@click="refToModalOpen") 追加
+
+		StModal(ref="modal")
+			v-form.pa-4(
 			ref="form"
 			)
 				v-text-field(
@@ -18,12 +23,11 @@
 				)
 				v-select(
 					v-model="role_id"
+					:items="roles"
+					item-value="id"
+					item-text="name"
 					label="役割"
 				)
-					option(
-						v-for="role in roles"
-						:key="role.id"
-					) {{ role.name }}
 				v-text-field(
 					:value="age"
 					@change="v => age = v"
@@ -34,7 +38,7 @@
 					@change="v => sex = v"
 					label="性別"
 				)
-				v-text-field(
+				v-textarea(
 					:value="note"
 					@change="v => note = v"
 					label="メモ"
@@ -51,30 +55,48 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-	name: "StCharacterBoard",
+  name: "StCharacterBoard",
 
-	components: {
-		StCharacterPanel,
-		StModal
-	},
+  components: {
+    StCharacterPanel,
+    StModal
+  },
 
-	methods: {
-		...mapActions([types.ADD_CHARACTER])
-	},
+  data() {
+    return {
+      name: "",
+      role_id: "",
+      age: "",
+      sex: "",
+      note: ""
+    };
+  },
 
-	computed: {
-		...mapState(["characters", "roles", "nextCharacterId"]),
-		...mapGetters([
-			"getCharacterById",
-			"getRoleById",
+  methods: {
+    ...mapActions([types.ADD_CHARACTER]),
 
-			"getCharacterNameById",
-			"getRoleNameById"
-		]),
-		// _.sortByはlodashライブラリによる破壊的昇順ソート
-		getCharactersSortByRoleId() {
-			return _.sortBy(this.characters, ["role_id"]);
-		}
-	}
+    refToModalOpen() {
+      this.$refs.modal.openModal();
+    },
+
+    resetActionModal() {
+      this.$refs.form.reset();
+    }
+  },
+
+  computed: {
+    ...mapState(["characters", "roles", "nextCharacterId"]),
+    ...mapGetters([
+      "getCharacterById",
+      "getRoleById",
+
+      "getCharacterNameById",
+      "getRoleNameById"
+    ]),
+    // _.sortByはlodashライブラリによる破壊的昇順ソート
+    getCharactersSortByRoleId() {
+      return _.sortBy(this.characters, ["role_id"]);
+    }
+  }
 };
 </script>

@@ -1,7 +1,7 @@
 <template lang="pug">
 //- Laptop    : 2 rows
 //- SmartPhone: 4 rows
-v-card(mb-4)
+v-card.pa-3.mb-4
 	v-layout(row wrap)
 		//- 機能
 		v-flex(xs5)
@@ -12,8 +12,7 @@ v-card(mb-4)
 			v-card-text
 				slot(name="character_name")
 		//- 削除
-		v-flex(xs2)
-			StDeleteButton
+		StDeleteButton(xs2 @click="DELETE_ACTION({index_key})")
 		
 		//- 場面
 		v-flex(xs8)
@@ -39,18 +38,28 @@ v-card(mb-4)
 
 <script>
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
+import * as types from "@/store/mutation-types";
+import { mapState, mapActions } from "vuex";
 
 export default {
-	name: "StActionPanel",
+  name: "StActionPanel",
 
-	components: {
-		StDeleteButton
-	},
+  components: {
+    StDeleteButton
+  },
 
-	data() {
-		return {
-			show: false
-		};
-	}
+  props: {
+    index_key: ""
+  },
+
+  data() {
+    return {
+      show: false
+    };
+  },
+
+  methods: {
+    ...mapActions([types.DELETE_ACTION])
+  }
 };
 </script>

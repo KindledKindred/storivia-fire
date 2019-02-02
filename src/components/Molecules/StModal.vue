@@ -1,12 +1,11 @@
 <template lang="pug" :ref="st_dialog">
 	v-app
-		v-dialog(@close="closeModal" v-model="show_modal" width="500")
+		v-dialog(@close="closeModal" v-model="show_modal")
 			v-card
 				slot
 </template>
 
 <script>
-// TODO: 親側のusage
 // ref: https://qiita.com/superyusuke/items/9eaad853422937de2391
 export default {
   data() {

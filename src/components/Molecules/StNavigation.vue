@@ -7,14 +7,17 @@
 			v-btn(flat @click="$emit('trans', 'StActionBoard')") Action
 			v-btn(flat @click="$emit('trans', 'StCharacterBoard')") Character
 			v-btn(flat @click="$emit('trans', 'StWorldBoard')") World
+			
+			v-spacer
+			v-btn(flat @click="$emit('trans', 'StQandABoard')") Q & A
 </template>
 
 <script>
 import firebase from "@/plugins/firebase";
 
 export default {
-	name: "StNavigation",
+  name: "StNavigation",
 
-	props: ["currentBoard"]
+  props: ["currentBoard"]
 };
 </script>
