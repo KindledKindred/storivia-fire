@@ -12,7 +12,7 @@ v-card.pa-3.mb-4
 			v-card-text
 				slot(name="character_name")
 		//- 削除
-		StDeleteButton(xs2 @click="DELETE_ACTION({index_key})")
+		slot(xs2 name="delete")
 		
 		//- 場面
 		v-flex(xs8)
@@ -37,29 +37,16 @@ v-card.pa-3.mb-4
 </template>
 
 <script>
-import StDeleteButton from "@/components/Atoms/StDeleteButton";
 import * as types from "@/store/mutation-types";
 import { mapState, mapActions } from "vuex";
 
 export default {
   name: "StActionPanel",
 
-  components: {
-    StDeleteButton
-  },
-
-  props: {
-    index_key: ""
-  },
-
   data() {
     return {
       show: false
     };
-  },
-
-  methods: {
-    ...mapActions([types.DELETE_ACTION])
   }
 };
 </script>

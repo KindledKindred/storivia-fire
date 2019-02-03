@@ -4,8 +4,6 @@
 		StActionPanel(
 			v-for='(action, index) in this.getActionsSortByFunction31Id'
 			:key="action.id"
-			:ref="panel"
-			@delete="DELETE_ACTION"
 		)
 			template(slot="function31_name") {{ getFunction31NameById(action.function31_id) }}
 			template(slot="character_name") {{ getCharacterNameById(action.character_id) }}
@@ -14,6 +12,9 @@
 			template(slot="world_sound") {{ getWorldSoundById(action.world_id) }}
 			template(slot="action_abstract") {{ action.abstract }}
 			template(slot="action_note") {{ action.note }}
+			template(slot="delete")
+				v-btn(icon @click="deletePanel(key)")
+					v-icon delete
 		v-btn(@click="refToModalOpen") 追加
 
 		StModal(ref="modal")
@@ -59,6 +60,7 @@
 
 <script>
 import StActionPanel from "@/components/Molecules/StActionPanel";
+import StDeleteButton from "@/components/Atoms/StDeleteButton";
 import StModal from "@/components/Molecules/StModal";
 import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
@@ -68,12 +70,13 @@ export default {
 
   components: {
     StActionPanel,
+    StDeleteButton,
     StModal
   },
 
   data() {
     return {
-      index_key: "",
+      key: "",
 
       function31_id: "",
       character_id: "",
@@ -84,7 +87,13 @@ export default {
   },
 
   methods: {
-    ...mapActions([types.ADD_ACTION]),
+    ...mapActions([types.ADD_ACTION, types.DELETE_ACTION]),
+
+    deletePanel: function(key) {
+      if (confirm("削除しますか？")) {
+        this.DELETE_ACTION(key);
+      }
+    },
 
     refToModalOpen() {
       this.$refs.modal.openModal();
