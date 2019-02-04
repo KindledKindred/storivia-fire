@@ -21,8 +21,8 @@
 				)
 					v-text-field(
 						:value="name"
-					@change="v => name = v"
-					label="名前"
+						@change="v => name = v"
+						label="名前"
 					)
 					v-slider(
 						v-model="light"
