@@ -14,8 +14,8 @@
 				)
 					v-text-field(
 						:value="name"
-					@change="v => name = v"
-					label="名前"
+						@change="v => name = v"
+						label="名前"
 					)
 					v-slider(
 						v-model="light"
@@ -51,36 +51,36 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "StWorldBoard",
+	name: "StWorldBoard",
 
-  components: {
-    StWorldPanel,
-    StModal
-  },
+	components: {
+		StWorldPanel,
+		StModal
+	},
 
-  data() {
-    return {
-      name: "",
-      light: "",
-      sound: "",
-      note: ""
-    };
-  },
+	data() {
+		return {
+			name: "",
+			light: "",
+			sound: "",
+			note: ""
+		};
+	},
 
-  methods: {
-    ...mapActions([types.ADD_WORLD]),
+	methods: {
+		...mapActions([types.ADD_WORLD]),
 
-    refToModalOpen() {
-      this.$refs.modal.openModal();
-    },
+		refToModalOpen() {
+			this.$refs.modal.openModal();
+		},
 
-    resetActionModal() {
-      this.$refs.form.reset();
-    }
-  },
+		resetActionModal() {
+			this.$refs.form.reset();
+		}
+	},
 
-  computed: {
-    ...mapState(["worlds", "nextWorldId"])
-  }
+	computed: {
+		...mapState(["worlds", "nextWorldId"])
+	}
 };
 </script>
