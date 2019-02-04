@@ -1,13 +1,14 @@
 <template lang="pug">
-v-card.pa-4.mt-4
+v-card.mt-4.pa-4
 	v-layout(row wrap)
-		v-flex(xs4 md6)
+		v-flex(xs6 md6)
 			slot(name="world_name")
 		v-flex(xs2 md2)
 			slot(name="world_light")
 		v-flex(xs2 md2)
 			slot(name="world_sound")
-		StDeleteButton(xs2 md1)
+		slot(xs2 md1 name="delete")
+	v-layout.ma-0.pa-0(justify-center)
 		v-btn(xs2 icon @click="show=!show")
 			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
 		

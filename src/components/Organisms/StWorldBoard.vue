@@ -5,7 +5,14 @@
 			template(slot="world_light") {{ world.light }}
 			template(slot="world_sound") {{ world.sound }}
 			template(slot="world_note") {{ world.note }}
-		v-btn(@click="refToModalOpen") 追加
+			template(slot="delete")
+				v-btn(icon @click="deletePanel(key)")
+					v-icon delete
+		v-footer(fixed)
+			v-layout.mb-5.pb-5.pr-5
+				v-spacer
+				v-btn(outline large fab color="indigo" @click="refToModalOpen")
+					v-icon edit
 
 		StModal(ref="modal")
 			v-card
@@ -68,7 +75,13 @@ export default {
   },
 
   methods: {
-    ...mapActions([types.ADD_WORLD]),
+    ...mapActions([types.ADD_WORLD, types.DELETE_WORLD]),
+
+    deletePanel: function(key) {
+      if (confirm("削除しますか？")) {
+        this.DELETE_WORLD(key);
+      }
+    },
 
     refToModalOpen() {
       this.$refs.modal.openModal();

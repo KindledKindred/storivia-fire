@@ -15,7 +15,11 @@
 			template(slot="delete")
 				v-btn(icon @click="deletePanel(key)")
 					v-icon delete
-		v-btn(@click="refToModalOpen") 追加
+		v-footer(fixed)
+			v-layout.mb-5.pb-5.pr-5
+				v-spacer
+				v-btn(outline large fab color="indigo" @click="refToModalOpen")
+					v-icon edit
 
 		StModal(ref="modal")
 			v-form.pa-4(
@@ -53,9 +57,10 @@
 					@change="v => note = v"
 					label="メモ"
 				)
-				v-btn(
-					@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); resetActionModal"
-				) 追加
+				v-layout(justify-center)
+					v-btn(
+						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); resetActionModal"
+					) 追加
 </template>
 
 <script>

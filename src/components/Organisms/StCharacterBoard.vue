@@ -10,7 +10,14 @@
 			template(slot="character_age") {{ character.age }}
 			template(slot="character_sex") {{ character.sex }}
 			template(slot="character_note") {{ character.note }}
-		v-btn(@click="refToModalOpen") 追加
+			template(slot="delete")
+				v-btn(icon @click="deletePanel(key)")
+					v-icon delete
+		v-footer(fixed)
+			v-layout.mb-5.pb-5.pr-5
+				v-spacer
+				v-btn(outline large fab color="primary" @click="refToModalOpen")
+					v-icon edit
 
 		StModal(ref="modal")
 			v-form.pa-4(
@@ -44,7 +51,7 @@
 					label="メモ"
 				)
 				v-btn(
-					@click="ADD_CHARACTER({name, role_id, age, sex, app, note})"
+					@click="ADD_CHARACTER({name, role_id, age, sex, note})"
 				) 追加
 </template>
 
@@ -64,6 +71,8 @@ export default {
 
   data() {
     return {
+      key: "",
+
       name: "",
       role_id: "",
       age: "",
@@ -73,7 +82,13 @@ export default {
   },
 
   methods: {
-    ...mapActions([types.ADD_CHARACTER]),
+    ...mapActions([types.ADD_CHARACTER, types.DELETE_CHARACTER]),
+
+    deletePanel: function(key) {
+      if (confirm("削除しますか？")) {
+        this.DELETE_CHARACTER(key);
+      }
+    },
 
     refToModalOpen() {
       this.$refs.modal.openModal();

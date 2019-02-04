@@ -1,7 +1,7 @@
 <template lang="pug" :ref="st_dialog">
 	v-app
 		v-dialog(@close="closeModal" v-model="show_modal")
-			v-card
+			v-card(justify-center)
 				slot
 </template>
 

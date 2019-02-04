@@ -2,11 +2,8 @@
 	v-app
 		StNavigation(:currentBoard="currentBoard" @trans="transBoard")
 		v-layout(row wrap)
-			v-flex(sm8)
+			v-flex.mt-5(xs12)
 				component(:is="currentBoard")
-			v-flex(sm4)
-				StNoteBoard
-				StFeedbackBoard
 </template>
 
 <script>
@@ -18,27 +15,27 @@ import StNoteBoard from "@/components/Organisms/StNoteBoard";
 import StFeedbackBoard from "@/components/Organisms/StFeedbackBoard";
 
 export default {
-	name: "StPlotTemplate",
+  name: "StPlotTemplate",
 
-	components: {
-		StNavigation,
-		StActionBoard,
-		StCharacterBoard,
-		StWorldBoard,
-		StNoteBoard,
-		StFeedbackBoard
-	},
+  components: {
+    StNavigation,
+    StActionBoard,
+    StCharacterBoard,
+    StWorldBoard,
+    StNoteBoard,
+    StFeedbackBoard
+  },
 
-	data() {
-		return {
-			currentBoard: "StActionBoard"
-		};
-	},
+  data() {
+    return {
+      currentBoard: "StActionBoard"
+    };
+  },
 
-	methods: {
-		transBoard: function(board) {
-			this.currentBoard = board;
-		}
-	}
+  methods: {
+    transBoard: function(board) {
+      this.currentBoard = board;
+    }
+  }
 };
 </script>

@@ -48,7 +48,6 @@ export default new Vuex.Store({
         role_id: 1,
         age: '20',
         sex: '不明',
-        app: 'ここに第一印象や声の特徴などを記載できます．',
         note: '何でもメモしてください．'
       },
       {
@@ -57,7 +56,6 @@ export default new Vuex.Store({
         role_id: 1,
         age: '46',
         sex: '男性',
-        app: 'よく焼けた肌と大きな丸眼鏡が特徴的な研究者',
         note: 'ーこれはサンプルですー　研究と釣り以外には興味を示さない．'
       },
       {
@@ -66,7 +64,6 @@ export default new Vuex.Store({
         role_id: 1,
         age: '青年',
         sex: '男性',
-        app: '特定の像は与えない',
         note:
           'ーこれもサンプルですー　ラゴスは南へと旅に出た．旅のための旅だった．'
       }
@@ -74,7 +71,7 @@ export default new Vuex.Store({
     worlds: [
       {
         id: 1,
-        name: 'ランドマークや部屋など具体的なシーン',
+        name: '場面',
         light: 2,
         sound: 4,
         note: '何でもメモしてください．'
@@ -471,7 +468,7 @@ export default new Vuex.Store({
 
     [types.ADD_CHARACTER](
       { commit, state },
-      { name, role_id, age, sex, app, note }
+      { name, role_id, age, sex, note }
     ) {
       let newCharacter = {
         id: state.nextCharacterId,
@@ -479,7 +476,6 @@ export default new Vuex.Store({
         role_id: role_id,
         age: age,
         sex: sex,
-        app: app,
         note: note
       };
       commit(types.ADD_CHARACTER, {
@@ -504,6 +500,16 @@ export default new Vuex.Store({
     [types.DELETE_ACTION]({ commit, state }, key) {
       commit(types.DELETE_ACTION, {
         index: state.actions.indexOf(key)
+      });
+    },
+    [types.DELETE_CHARACTER]({ commit, state }, key) {
+      commit(types.DELETE_CHARACTER, {
+        index: state.characters.indexOf(key)
+      });
+    },
+    [types.DELETE_WORLD]({ commit, state }, key) {
+      commit(types.DELETE_WORLD, {
+        index: state.worlds.indexOf(key)
       });
     }
   },
@@ -547,6 +553,12 @@ export default new Vuex.Store({
     // types.DELETE_XXX
     [types.DELETE_ACTION](state, payload) {
       state.actions.splice(payload.index, 1);
+    },
+    [types.DELETE_CHARACTER](state, payload) {
+      state.characters.splice(payload.index, 1);
+    },
+    [types.DELETE_WORLD](state, payload) {
+      state.worlds.splice(payload.index, 1);
     }
   },
 

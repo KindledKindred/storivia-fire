@@ -5,7 +5,7 @@ v-card.pa-4.mt-4
 			slot(name="character_name")
 		v-flex(xs5)
 			slot(name="character_role")
-		StDeleteButton(xs2)
+		slot(xs2 name="delete")
 		
 		v-flex(xs5)
 			slot(name="character_age")
@@ -20,14 +20,8 @@ v-card.pa-4.mt-4
 </template>
 
 <script>
-import StDeleteButton from "@/components/Atoms/StDeleteButton";
-
 export default {
   name: "StCharacterPanel",
-
-  components: {
-    StDeleteButton
-  },
 
   data() {
     return {
