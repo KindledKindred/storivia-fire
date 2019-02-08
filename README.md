@@ -257,5 +257,5 @@ Board は機能を，Panel は表示を担います．ただし Board は Panel 
 
 #### mutation-types という遺産
 
-今回 mutation-types.js を用いて回りくどい書き方をしています．
+今回 Vuex の store で名前空間を管理する際， mutation-types.js を用いて回りくどい書き方をしています．
 これは過去の書き方なので，Vue の学習者やシステムの拡張者は[Qiita の記事](https://qiita.com/yuukive/items/8e3cf08d28c30631a8b6)を参考にしてください．
