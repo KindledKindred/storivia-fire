@@ -1,8 +1,8 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
-		//- key
+		//- panelを役割順に表示
 		StCharacterPanel(
-			v-for='character in this.getCharactersSortByRoleId'
+			v-for='(character, index) in this.getCharactersSortByRoleId'
 			:key="character.id"
 		)
 			template(slot="character_name") {{ character.name }}
@@ -11,7 +11,7 @@
 			template(slot="character_sex") {{ character.sex }}
 			template(slot="character_note") {{ character.note }}
 			template(slot="delete")
-				v-btn(icon @click="deletePanel(key)")
+				v-btn(icon @click="deletePanel(index)")
 					v-icon delete
 		v-footer(fixed)
 			v-layout.mb-5.pb-5.pr-5
@@ -19,6 +19,7 @@
 				v-btn(outline large fab color="primary" @click="refToModalOpen")
 					v-icon edit
 
+		//- パネル追加フォーム
 		StModal(ref="modal")
 			v-form.pa-4(
 			ref="form"
@@ -62,56 +63,56 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "StCharacterBoard",
+	name: "StCharacterBoard",
 
-  components: {
-    StCharacterPanel,
-    StModal
-  },
+	components: {
+		StCharacterPanel,
+		StModal
+	},
 
-  data() {
-    return {
-      key: "",
+	data() {
+		return {
+			key: "",
 
-      name: "",
-      role_id: "",
-      age: "",
-      sex: "",
-      note: ""
-    };
-  },
+			name: "",
+			role_id: "",
+			age: "",
+			sex: "",
+			note: ""
+		};
+	},
 
-  methods: {
-    ...mapActions([types.ADD_CHARACTER, types.DELETE_CHARACTER]),
+	methods: {
+		...mapActions([types.ADD_CHARACTER, types.DELETE_CHARACTER]),
 
-    deletePanel: function(key) {
-      if (confirm("削除しますか？")) {
-        this.DELETE_CHARACTER(key);
-      }
-    },
+		deletePanel: function(index) {
+			if (confirm("削除しますか？")) {
+				this.DELETE_CHARACTER(index);
+			}
+		},
 
-    refToModalOpen() {
-      this.$refs.modal.openModal();
-    },
+		refToModalOpen() {
+			this.$refs.modal.openModal();
+		},
 
-    resetActionModal() {
-      this.$refs.form.reset();
-    }
-  },
+		resetActionModal() {
+			this.$refs.form.reset();
+		}
+	},
 
-  computed: {
-    ...mapState(["characters", "roles", "nextCharacterId"]),
-    ...mapGetters([
-      "getCharacterById",
-      "getRoleById",
+	computed: {
+		...mapState(["characters", "roles", "nextCharacterId"]),
+		...mapGetters([
+			"getCharacterById",
+			"getRoleById",
 
-      "getCharacterNameById",
-      "getRoleNameById"
-    ]),
-    // _.sortByはlodashライブラリによる破壊的昇順ソート
-    getCharactersSortByRoleId() {
-      return _.sortBy(this.characters, ["role_id"]);
-    }
-  }
+			"getCharacterNameById",
+			"getRoleNameById"
+		]),
+		// _.sortByはlodashライブラリによる破壊的昇順ソート
+		getCharactersSortByRoleId() {
+			return _.sortBy(this.characters, ["role_id"]);
+		}
+	}
 };
 </script>

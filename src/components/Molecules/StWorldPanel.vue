@@ -21,16 +21,16 @@ v-card.mt-4.pa-4
 import StDeleteButton from "@/components/Atoms/StDeleteButton";
 
 export default {
-  name: "StWorldPanel",
+	name: "StWorldPanel",
 
-  components: {
-    StDeleteButton
-  },
+	components: {
+		StDeleteButton
+	},
 
-  data() {
-    return {
-      show: false
-    };
-  }
+	data() {
+		return {
+			show: false
+		};
+	}
 };
 </script>

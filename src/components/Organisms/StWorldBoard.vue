@@ -1,12 +1,12 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
-		StWorldPanel(v-for='world in worlds' :key="world.id")
+		StWorldPanel(v-for='(world, index) in worlds' :key="world.id")
 			template(slot="world_name") {{ world.name }}
 			template(slot="world_light") {{ world.light }}
 			template(slot="world_sound") {{ world.sound }}
 			template(slot="world_note") {{ world.note }}
 			template(slot="delete")
-				v-btn(icon @click="deletePanel(key)")
+				v-btn(icon @click="deletePanel(index)")
 					v-icon delete
 		v-footer(fixed)
 			v-layout.mb-5.pb-5.pr-5
@@ -58,42 +58,44 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "StWorldBoard",
+	name: "StWorldBoard",
 
-  components: {
-    StWorldPanel,
-    StModal
-  },
+	components: {
+		StWorldPanel,
+		StModal
+	},
 
-  data() {
-    return {
-      name: "",
-      light: "",
-      sound: "",
-      note: ""
-    };
-  },
+	data() {
+		return {
+			key: "",
 
-  methods: {
-    ...mapActions([types.ADD_WORLD, types.DELETE_WORLD]),
+			name: "",
+			light: "",
+			sound: "",
+			note: ""
+		};
+	},
 
-    deletePanel: function(key) {
-      if (confirm("削除しますか？")) {
-        this.DELETE_WORLD(key);
-      }
-    },
+	methods: {
+		...mapActions([types.ADD_WORLD, types.DELETE_WORLD]),
 
-    refToModalOpen() {
-      this.$refs.modal.openModal();
-    },
+		deletePanel: function(index) {
+			if (confirm("削除しますか？")) {
+				this.DELETE_WORLD(index);
+			}
+		},
 
-    resetActionModal() {
-      this.$refs.form.reset();
-    }
-  },
+		refToModalOpen() {
+			this.$refs.modal.openModal();
+		},
 
-  computed: {
-    ...mapState(["worlds", "nextWorldId"])
-  }
+		resetActionModal() {
+			this.$refs.form.reset();
+		}
+	},
+
+	computed: {
+		...mapState(["worlds", "nextWorldId"])
+	}
 };
 </script>

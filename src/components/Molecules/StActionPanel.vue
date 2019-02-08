@@ -16,9 +16,9 @@ v-card.mt-4.pa-4
 		v-flex(xs8)
 			slot(name="world_name")
 		v-flex(xs4)
-			v-icon wb_incandescent
+			v-icon wb_incandescent　
 			slot(name="world_light")
-			v-icon volume_up
+			v-icon volume_up　
 			slot(name="world_sound")
 
 		//- 要約
@@ -35,12 +35,12 @@ v-card.mt-4.pa-4
 
 <script>
 export default {
-  name: "StActionPanel",
+	name: "StActionPanel",
 
-  data() {
-    return {
-      show: false
-    };
-  }
+	data() {
+		return {
+			show: false
+		};
+	}
 };
 </script>
