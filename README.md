@@ -255,27 +255,7 @@ Board は機能を，Panel は表示を担います．ただし Board は Panel 
 これにより機能は`Board`に集約しましたが，コンポーネントの記述は冗長になりました．
 もし拡張時に`StDeleteButton`が必要になるならば実装してください．
 
-#### DELETE
+#### mutation-types という遺産
 
-`v-for`で Panel を表示する際に，index 番号を引数に取ることで `delete(index)`から
-
-```actions.js
-actions: {
-  [types.DELETE_ACTION]({ commit, state }, index) {
-    index: state.actions.index
-  }
-}
-```
-
-```mutations.js
-mutations: {
-  [types.DELETE_ACTION](state, payload) {
-    state.actions.splice(payload.index, 1)
-  }
-}
-```
-
-とするのがストレートな実装方式です．
-しかし[Vue 公式：リストレンダリング](https://jp.vuejs.org/v2/guide/list.html#v-for-%E3%81%A7%E9%85%8D%E5%88%97%E3%81%AB%E8%A6%81%E7%B4%A0%E3%82%92%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B)にあるように，index を直接引数として渡すと将来バグの温床になるかもしれません．そこで key を引数にして，indexOf(key)で index 番号を間接的に呼び出すことで堅牢さを維持しました．
-
-代償として計算量が増えています．indexOf(key)は key に適した配列を走査して index を返すため計算量は O(n)．それを用いた splice の計算量も O(n)です．重ねると非常に重い処理ですが，最大でも n=50 未満になるため今回はこの実装にしました．なお軽量化したい場合は SkipList などを採用するといいでしょう（[参考](http://d.hatena.ne.jp/kaiseh/20071231/1199122020)）．
+今回 mutation-types.js を用いて回りくどい書き方をしています．
+これは過去の書き方なので，Vue の学習者やシステムの拡張者は[Qiita の記事](https://qiita.com/yuukive/items/8e3cf08d28c30631a8b6)を参考にしてください．
