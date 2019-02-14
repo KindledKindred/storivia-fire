@@ -15,10 +15,11 @@ v-card.mt-4.pa-4
 		//- 場面
 		v-flex(xs8)
 			slot(name="world_name")
-		v-flex(xs4)
-			v-icon wb_incandescent　
+		v-flex(xs2)
+			v-icon.gray--text.darken4 wb_incandescent
 			slot(name="world_light")
-			v-icon volume_up　
+		v-flex(xs2)
+			v-icon.gray--text.darken4 volume_up
 			slot(name="world_sound")
 
 		//- 要約
@@ -26,7 +27,7 @@ v-card.mt-4.pa-4
 			v-card-text
 				slot(name="action_abstract")
 		v-btn(xs2 icon @click="show=!show")
-			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+			v-icon {{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
 		
 		v-flex(xs12)
 			v-card-text(v-show="show")

@@ -12,7 +12,7 @@ v-card.pa-4.mt-4
 		v-flex(xs5)
 			slot(name="character_sex")
 		v-btn(xs2 icon @click="show=!show")
-			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+			v-icon {{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
 		
 		v-flex(xs12)
 			v-card-text(v-show="show")
@@ -21,12 +21,12 @@ v-card.pa-4.mt-4
 
 <script>
 export default {
-  name: "StCharacterPanel",
+	name: "StCharacterPanel",
 
-  data() {
-    return {
-      show: false
-    };
-  }
+	data() {
+		return {
+			show: false
+		};
+	}
 };
 </script>

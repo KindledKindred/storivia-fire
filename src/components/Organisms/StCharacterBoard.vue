@@ -51,9 +51,10 @@
 					@change="v => note = v"
 					label="メモ"
 				)
-				v-btn(
-					@click="ADD_CHARACTER({name, role_id, age, sex, note})"
-				) 追加
+				v-layout(justify-center)
+					v-btn(
+						@click="ADD_CHARACTER({name, role_id, age, sex, note})"
+					) 追加
 </template>
 
 <script>

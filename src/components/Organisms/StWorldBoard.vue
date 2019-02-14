@@ -47,9 +47,10 @@
 						@change="v => note = v"
 						label="メモ"
 					)
-					v-btn(
-						@click="ADD_WORLD({name, light, sound, note})"
-					) 追加
+					v-layout(justify-center)
+						v-btn(
+							@click="ADD_WORLD({name, light, sound, note})"
+						) 追加
 </template>
 <script>
 import StWorldPanel from "@/components/Molecules/StWorldPanel";

@@ -1,6 +1,7 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
-		StFeedbackPanel(fixed)
+		v-toolbar(v-show="show_feedback" fixed)
+			StFeedbackPanel
 		//- panel をプロップの機能順に表示
 		StActionPanel(
 			v-for='(action, index) in this.getActionsSortByFunction31Id'
@@ -61,7 +62,7 @@
 				)
 				v-layout(justify-center)
 					v-btn(
-						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); resetActionModal"
+						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); showFeedback(function31_id); resetActionModal"
 					) 追加
 </template>
 
@@ -77,6 +78,7 @@ export default {
 	name: "StActionBoard",
 
 	components: {
+		StFeedbackPanel,
 		StActionPanel,
 		StDeleteButton,
 		StModal
@@ -84,6 +86,7 @@ export default {
 
 	data() {
 		return {
+			show_feedback: false,
 			key: "",
 
 			function31_id: "",
@@ -108,8 +111,12 @@ export default {
 		},
 
 		resetActionModal() {
-			this.$refs.form.reset();
-		}
+			// todo
+		},
+
+		showFeedback(function31_id) {
+			this.show_feedback = true
+		} 
 	},
 
 	computed: {

@@ -10,7 +10,7 @@ v-card.mt-4.pa-4
 		slot(xs2 md1 name="delete")
 	v-layout.ma-0.pa-0(justify-center)
 		v-btn(xs2 icon @click="show=!show")
-			v-icon {{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+			v-icon {{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
 		
 		v-flex(xs12)
 			v-card-text(v-show="show")

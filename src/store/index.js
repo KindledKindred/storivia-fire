@@ -2,7 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import * as types from './mutation-types';
 
+import createPersistedState from "vuex-persistedstate"
+
 Vue.use(Vuex);
+
 /* TODO: ファイルを分割
 /***
  * state
@@ -10,8 +13,8 @@ Vue.use(Vuex);
  * - characters (reactive)
  * - worlds (reactive)
  * - roles
- * - reflections
  * - function31s
+ * - feedbacks
  * - QandAs
  * - note (reactive)
  * - nextXXXid
@@ -27,8 +30,7 @@ Vue.use(Vuex);
  * - getXXXById
  * - getXXXNameById
  ***/
-
-export default new Vuex.Store({
+const initialState = {
   state: {
     //初期ステート
     actions: [{
@@ -286,109 +288,226 @@ export default new Vuex.Store({
       }
     ],
 
+    // icon: [edit, cake, warining]
+    feedbacks: [{
+        id: 0,
+        icon: "cake",
+        message: "最初の一歩！"
+      },
+      {
+        id: 1,
+        icon: "edit",
+        message: "束の間の解放"
+      },
+      {
+        id: 2,
+        icon: "edit",
+        message: "禁止されると破りたくなる……[03. 違反]へ"
+      },
+      {
+        id: 3,
+        icon: "edit",
+        message: "予測可能回避不可能な展開"
+      },
+      {
+        id: 4,
+        icon: "edit",
+        message: "敵対者の探りが始まる……[05. 漏洩]へ"
+      },
+      {
+        id: 5,
+        icon: "edit",
+        message: "秘密は必ず漏れ出してしまう"
+      },
+      {
+        id: 6,
+        icon: "edit",
+        message: "ピンチその１，[08]か[10]へ"
+      },
+      {
+        id: 7,
+        icon: "edit",
+        message: "主人公や仲間が敵対者を助けてしまった！"
+      },
+      {
+        id: 8,
+        icon: "edit",
+        message: "ピンチその２，[09]か[10]へ"
+      },
+      {
+        id: 9,
+        icon: "edit",
+        message: "望んでか，嫌々か，追い出されたか．[10. 決意・同意]へ"
+      },
+      {
+        id: 10,
+        icon: "edit",
+        message: "主人公の心理描写か，似た風景描写を"
+      },
+      {
+        id: 11,
+        icon: "cake",
+        message: "おめでとう！いよいよ物語が動き出すよ！"
+      },
+      {
+        id: 12,
+        icon: "edit",
+        message: "求めよ，さらば与えられん．時には求めずとも試練を課されたり"
+      },
+      {
+        id: 13,
+        icon: "edit",
+        message: "試練に成功しても失敗しても邪魔が入ってもいい"
+      },
+      {
+        id: 14,
+        icon: "edit",
+        message: "特権，通行証，魔法道具，贈与者自身などなど，何を得られたかな"
+      },
+      {
+        id: 15,
+        icon: "cake",
+        message: "おめでとう！物語は中盤に突入した！"
+      },
+      {
+        id: 16,
+        icon: "edit",
+        message: ""
+      },
+      {
+        id: 17,
+        message: ""
+      },
+      {
+        id: 18,
+        message: ""
+      },
+      {
+        id: 19,
+        message: ""
+      },
+      {
+        id: 20,
+        message: ""
+      },
+      {
+        id: 21,
+        message: ""
+      },
+      {
+        id: 22,
+        message: ""
+      },
+      {
+        id: 23,
+        message: ""
+      },
+      {
+        id: 24,
+        message: ""
+      },
+      {
+        id: 25,
+        message: ""
+      },
+      {
+        id: 26,
+        message: ""
+      },
+      {
+        id: 27,
+        message: ""
+      },
+      {
+        id: 28,
+        message: ""
+      },
+      {
+        id: 29,
+        message: ""
+      },
+      {
+        id: 30,
+        message: ""
+      },
+      {
+        id: 31,
+        message: ""
+      }
+    ],
+
     // Q&Aモーダルではアコーディオンを使用して各コンテンツを表示
-    // その際にidを指定する必要があるが，idに'#sv'を付与するスクリプトを動かすより
-    // 直接データ内にid_htmlを指定したほうが高速であるためこのようにした．
-    // ただし拡張により似た操作が増えるのであれば関数として切り出した方がよい．
     QandAs: [{
         id: 1,
-        id_html: 'sv1',
-        id_href: '#sv1',
         question: 'アイデアが浮かばない',
         answer: '散歩に出かけましょう．トイレまででも構いません．でもスマホか手帳は持って！アイデアは机を離れた時に出がちです．思い浮かんだことを全部メモしてください．全部です！'
       },
       {
         id: 2,
-        id_html: 'sv2',
-        id_href: '#sv2',
-        question: '何をすればいいのか分からない',
+        question: '何をすればいい？',
         answer: '全ては「パネル追加」から始まります．もし「シーン」や「行動者」の選択肢が無いと感じたなら，右上の「Character」や「World」からキャラクターやシーンの舞台を追加することができます．もしどんな風にパネルを加えていいか分からない場合は，多くを空欄にしてもいいので数を作っていきましょう．完璧なものを作るより，不満なものを後で編集・削除するほうが遥かに簡単です．'
       },
       // Action
       {
         id: 10,
-        id_html: 'sv10',
-        id_href: '#sv10',
         question: '機能って？Actionって？',
         answer: '（誰が）何をするかを決めたものです．「何をするか」には適した31の順序があり，あなたはその中からいくつかを選んで使うことができます．'
       },
 
       {
         id: 11,
-        id_html: 'sv11',
-        id_href: '#sv11',
-        question: 'どの機能を描けばいいのか分からない',
+        question: 'どの機能を描けばいい？',
         answer: '必ず描かなければいけない機能がない，ということが却って書くのを難しくしているのかもしれません．そんな時は「機能」を埋めずに一行メモだけを書いたパネルを量産するといいでしょう．「機能」は後から埋めることができますから．'
       },
       {
         id: 12,
-        id_html: 'sv12',
-        id_href: '#sv12',
-        question: '描きたい場面はあるがどの機能か分からない',
+        question: '描きたい場面はどの機能？',
         answer: 'シーンをひとまず機能抜きで書いてみるといいでしょう．後から他のパネルと見比べて，整合性のある機能を当てはめるのも一つの方法です．'
       },
       {
         id: 13,
-        id_html: 'sv13',
-        id_href: '#sv13',
-        question: 'どのキャラクターを出せばいいのか分からない',
+        question: 'どのキャラクターを出せばいい？',
         answer: 'キャラクター欄を空欄にしてみましょう．それでもパネルを追加することができます．最後まで埋まらなければ，出番が少なかったり最後の登場から間隔の空いたキャラクターを選ぶといいでしょう．'
       },
       {
         id: 14,
-        id_html: 'sv14',
-        id_href: '#sv14',
-        question: 'キャラクターをどう活躍させればいいのか分からない',
+        question: 'キャラクターの活躍方法は？',
         answer: '活躍を彩るには感情移入させる必要があります．感情移入させるには苦労や苦難が必要です．辛い部分を演出してから，それを乗り越えるような場面を作ることが活躍として受け取られやすいでしょう．'
       },
       {
         id: 15,
-        id_html: 'sv15',
-        id_href: '#sv15',
-        question: '書きたいものと書いているものが違う',
+        question: '書きたいものが書けない',
         answer: '思い描くものと書き出すもののギャップはだれしもが感じることです．その差は経験を積み重ねることで埋まっていきます．まずはできる範囲で完成させてみましょう．'
       },
       // Character
       {
         id: 20,
-        id_html: 'sv20',
-        id_href: '#sv20',
         question: 'キャラクターって何？',
         answer: '登場人物……は正確じゃないですね．猫でもロボットでも物語上で何か行動を起こし作用するならば，それはキャラクターです．'
       },
       {
         id: 21,
-        id_html: 'sv21',
-        id_href: '#sv21',
         question: '役割って何？',
         answer: '役割は7種類あって，それぞれが特定の機能（Action）を果たします．物語の時間軸の中で，1つの役割にはたった1人のキャラクターしか適用できません．ただし途中まで敵対者だった人が助手になることがあるように，あるキャラクターの役割が物語の中で変化することもあります．別の見方をすれば，敵対者の役割が別のキャラクターに移ったとも捉えることができます．'
       },
       {
         id: 22,
-        id_html: 'sv22',
-        id_href: '#sv22',
         question: '外見が想像できない',
         answer: '詳細ではなくてもシルエットで構いません．●なら優しそうですし，▲は横柄で▼は強そうです．そのキャラにあったシルエットを用意してください．主人公にはそれとわかりやすい特徴を付けておくのが王道ですが，あえて没個性にしている作品も少なくありません．ただし没個性なだけでは本当に埋もれてしまうので，読み手の自己投影の邪魔にならない（日常で評価の対象とならない）部分で色を付けておきましょう．'
       },
       {
         id: 23,
-        id_html: 'sv23',
-        id_href: '#sv23',
         question: 'シーンって何？',
         answer: 'キャラクターが機能を果たす舞台です．かみ砕いて言えば場所や時間帯のことです．'
       },
       {
         id: 24,
-        id_html: 'sv24',
-        id_href: '#sv25',
-        question: 'どんなシーンを作ればいいか分からない',
+        question: 'どんなシーンを作ればいい？',
         answer: '作っても使わないことが多いので，深く考えずに量産すれば未来の自分が良いシーンを選び取ってくれます．量産が難しければ，時間帯を変えてみたり既存のシーンと光量・音量が異なるシーンを足していけばいいでしょう．'
       },
       {
         id: 25,
-        id_html: 'sv25',
-        id_href: '#sv25',
-        question: 'プロットの終わらせ方が分からない',
+        question: 'プロットの終わらせ方は？',
         answer: '「19. 不幸・欠如の解消」「30. 敵対者の処遇決定」のいずれかを「31. エンディング」の直前におくと作りやすいです．'
       }
     ],
@@ -399,7 +518,11 @@ export default new Vuex.Store({
     nextActionId: 2,
     nextCharacterId: 4,
     nextWorldId: 4
-  },
+  }
+}
+
+export default new Vuex.Store({
+  state: initialState,
 
   actions: {
     // ADD_XXX の定義
@@ -592,5 +715,7 @@ export default new Vuex.Store({
       const function31 = getters.getFunction31byId(id);
       return function31 ? function31.name : '';
     }
-  }
+  },
+
+  plugins: [createPersistedState]
 });
