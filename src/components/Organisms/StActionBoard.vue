@@ -1,8 +1,6 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
-		v-toolbar(v-show="show_feedback" fixed)
-			StFeedbackPanel
-		//- panel をプロップの機能順に表示
+		//- panel表示領域：プロップの機能順に表示
 		StActionPanel(
 			v-for='(action, index) in this.getActionsSortByFunction31Id'
 			:key="action.id"
@@ -75,81 +73,84 @@ import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-	name: "StActionBoard",
+  name: "StActionBoard",
 
-	components: {
-		StFeedbackPanel,
-		StActionPanel,
-		StDeleteButton,
-		StModal
-	},
+  components: {
+    StFeedbackPanel,
+    StActionPanel,
+    StDeleteButton,
+    StModal
+  },
 
-	data() {
-		return {
-			show_feedback: false,
-			key: "",
+  data() {
+    return {
+      show_feedback: false,
+      feedback_icon: "",
+      feedback_message: "",
 
-			function31_id: "",
-			character_id: "",
-			world_id: "",
-			abstract: "",
-			note: ""
-		};
-	},
+      key: "",
 
-	methods: {
-		...mapActions([types.ADD_ACTION, types.DELETE_ACTION]),
+      function31_id: "",
+      character_id: "",
+      world_id: "",
+      abstract: "",
+      note: ""
+    };
+  },
 
-		deletePanel: function(index) {
-			if (confirm("削除しますか？")) {
-				this.DELETE_ACTION(index);
-			}
-		},
+  methods: {
+    ...mapActions([types.ADD_ACTION, types.DELETE_ACTION]),
 
-		refToModalOpen() {
-			this.$refs.modal.openModal();
-		},
+    deletePanel: function(index) {
+      if (confirm("削除しますか？")) {
+        this.DELETE_ACTION(index);
+      }
+    },
 
-		resetActionModal() {
-			// todo
-		},
+    refToModalOpen() {
+      this.$refs.modal.openModal();
+    },
 
-		showFeedback(function31_id) {
-			this.show_feedback = true
-		} 
-	},
+    resetActionModal() {
+      // todo
+    },
 
-	computed: {
-		...mapState([
-			"actions",
-			"characters",
-			"worlds",
-			"function31s",
-			"nextActionId",
-			"nextCharacterId",
-			"nextWorldId",
-			"nextWorldId"
-		]),
+    showFeedback(function31_id) {
+      this.show_feedback = true;
+    }
+  },
 
-		...mapGetters([
-			"getActionById",
-			"getCharacterById",
-			"getWorldById",
-			"getFunction31ById",
+  computed: {
+    ...mapState([
+      "actions",
+      "characters",
+      "worlds",
+      "function31s",
+      "nextActionId",
+      "nextCharacterId",
+      "nextWorldId",
+      "nextWorldId"
+    ]),
 
-			"getCharacterNameById",
-			"getWorldNameById",
-			"getWorldLightById",
-			"getWorldSoundById",
-			"getFunction31NameById"
-		]),
+    ...mapGetters([
+      "getActionById",
+      "getCharacterById",
+      "getWorldById",
+      "getFunction31ById",
 
-		// パネル追加時に機能idでソート
-		// _.function は lodash というライブラリのもの
-		// sortByは破壊的(配列を上書きする)な昇順ソート処理
-		getActionsSortByFunction31Id() {
-			return _.sortBy(this.actions, ["function31_id"]);
-		}
-	}
+      "getCharacterNameById",
+      "getWorldNameById",
+      "getWorldLightById",
+      "getWorldSoundById",
+      "getFunction31NameById"
+    ]),
+
+    // パネル追加時に機能idでソート
+    // _.function は lodash というライブラリのもの
+    // sortByは破壊的(配列を上書きする)な昇順ソート処理
+    getActionsSortByFunction31Id() {
+      return _.sortBy(this.actions, ["function31_id"]);
+    }
+  }
 };
 </script>
