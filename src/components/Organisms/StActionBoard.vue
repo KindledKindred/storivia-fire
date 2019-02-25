@@ -1,5 +1,7 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
+		StFeedbackPanel
+			template(slot="message") {{ congrats.message }}
 		//- panel表示領域：プロップの機能順に表示
 		StActionPanel(
 			v-for='(action, index) in this.getActionsSortByFunction31Id'
@@ -60,7 +62,7 @@
 				)
 				v-layout(justify-center)
 					v-btn(
-						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); showFeedback(function31_id); resetActionModal"
+						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); showCongrats(function31_id); resetActionModal"
 					) 追加
 </template>
 
@@ -84,9 +86,10 @@ export default {
 
   data() {
     return {
-      show_feedback: false,
-      feedback_icon: "",
-      feedback_message: "",
+      show_congrats: false,
+      show_encouragement: false,
+      congrats_icon: "",
+      congrats_message: "",
 
       key: "",
 
@@ -100,6 +103,7 @@ export default {
 
   methods: {
     ...mapActions([types.ADD_ACTION, types.DELETE_ACTION]),
+    ...mapGetters(["getCongratsById"]),
 
     deletePanel: function(index) {
       if (confirm("削除しますか？")) {
@@ -112,11 +116,17 @@ export default {
     },
 
     resetActionModal() {
-      // todo
+      console.log("resetActionModal is working");
     },
 
-    showFeedback(function31_id) {
-      this.show_feedback = true;
+    showCongrats(id) {
+      this.show_congrats = true;
+
+      let congrats = getCongratsById(id);
+    },
+
+    showEncouragement() {
+      this.show_encouragement = true;
     }
   },
 
@@ -126,6 +136,7 @@ export default {
       "characters",
       "worlds",
       "function31s",
+      "congrats",
       "nextActionId",
       "nextCharacterId",
       "nextWorldId",

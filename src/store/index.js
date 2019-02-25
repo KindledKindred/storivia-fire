@@ -30,7 +30,8 @@ Vue.use(Vuex);
  * - getXXXById
  * - getXXXNameById
  ***/
-let initialState = {
+
+export default new Vuex.Store({
   state: {
     //初期ステート
     actions: [
@@ -320,7 +321,7 @@ let initialState = {
     ],
 
     // icon: [edit, cake, warining]
-    feedbacks: [
+    congrats: [
       {
         id: 0,
         icon: 'cake',
@@ -565,11 +566,7 @@ let initialState = {
     nextActionId: 2,
     nextCharacterId: 4,
     nextWorldId: 4
-  }
-};
-
-export default new Vuex.Store({
-  state: initialState,
+  },
 
   actions: {
     // ADD_XXX の定義
@@ -710,6 +707,9 @@ export default new Vuex.Store({
     getFunction31byId: state => id => {
       return state.function31s.filter(function31 => function31.id === id)[0];
     },
+    getCongratsById: state => id => {
+      return state.congrats.filter(congrats => congrats.id === id)[0];
+    },
 
     // 2. .name取得 - String
     getCharacterNameById: (state, getters) => id => {
@@ -738,5 +738,5 @@ export default new Vuex.Store({
     }
   },
 
-  plugins: [createPersistedState]
+  plugins: [createPersistedState()]
 });
