@@ -1,7 +1,7 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
 		StFeedbackPanel
-			template(slot="message") {{ congrats.message }}
+			template(slot="message") {{ current_congrats.message }}
 		//- panel表示領域：プロップの機能順に表示
 		StActionPanel(
 			v-for='(action, index) in this.getActionsSortByFunction31Id'
@@ -88,8 +88,10 @@ export default {
     return {
       show_congrats: false,
       show_encouragement: false,
-      congrats_icon: "",
-      congrats_message: "",
+      current_congrats: {
+        icon: "",
+        message: ""
+      },
 
       key: "",
 
@@ -122,7 +124,7 @@ export default {
     showCongrats(id) {
       this.show_congrats = true;
 
-      let congrats = getCongratsById(id);
+      this.current_congrats = getCongratsById(id);
     },
 
     showEncouragement() {
