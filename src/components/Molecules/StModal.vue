@@ -8,20 +8,20 @@
 <script>
 // ref: https://qiita.com/superyusuke/items/9eaad853422937de2391
 export default {
-  data() {
-    return {
-      show_modal: false
-    };
-  },
+	data() {
+		return {
+			show_modal: false
+		};
+	},
 
-  methods: {
-    openModal() {
-      this.show_modal = true;
-    },
-    closeModal() {
-      this.show_modal = false;
-    }
-  }
+	methods: {
+		openModal() {
+			this.show_modal = true;
+		},
+		closeModal() {
+			this.show_modal = false;
+		}
+	}
 };
 </script>
 

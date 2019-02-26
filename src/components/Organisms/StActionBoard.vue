@@ -1,7 +1,9 @@
 <template lang="pug">
 	v-container(fluid grid-list-lg)
-		StFeedbackPanel
-			template(slot="message") {{ current_congrats.message }}
+		div(v-sticky="{stickyTop: 60}")
+			StFeedbackPanel
+				template(slot="function31") {{ getFunction31NameById(function31_id) }}
+				template(slot="description") {{ getFunction31DescriptionById(function31_id) }}
 		//- panel表示領域：プロップの機能順に表示
 		StActionPanel(
 			v-for='(action, index) in this.getActionsSortByFunction31Id'
@@ -62,7 +64,7 @@
 				)
 				v-layout(justify-center)
 					v-btn(
-						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); showCongrats(function31_id); resetActionModal"
+						@click="ADD_ACTION({function31_id, character_id, world_id, abstract, note}); showCongrats; resetActionModal"
 					) 追加
 </template>
 
@@ -73,97 +75,118 @@ import StDeleteButton from "@/components/Atoms/StDeleteButton";
 import StModal from "@/components/Molecules/StModal";
 import * as types from "@/store/mutation-types";
 import { mapState, mapGetters, mapActions } from "vuex";
+import VueSticky from "vue-sticky";
 
 export default {
-  name: "StActionBoard",
+	name: "StActionBoard",
 
-  components: {
-    StFeedbackPanel,
-    StActionPanel,
-    StDeleteButton,
-    StModal
-  },
+	components: {
+		StFeedbackPanel,
+		StActionPanel,
+		StDeleteButton,
+		StModal
+	},
 
-  data() {
-    return {
-      show_congrats: false,
-      show_encouragement: false,
-      current_congrats: {
-        icon: "",
-        message: ""
-      },
+	directives: {
+		sticky: VueSticky
+	},
 
-      key: "",
+	data() {
+		return {
+			show_congrats: false,
+			show_encouragement: false,
+			current_congrats: {
+				icon: "",
+				message: ""
+			},
 
-      function31_id: "",
-      character_id: "",
-      world_id: "",
-      abstract: "",
-      note: ""
-    };
-  },
+			key: "",
 
-  methods: {
-    ...mapActions([types.ADD_ACTION, types.DELETE_ACTION]),
-    ...mapGetters(["getCongratsById"]),
+			function31_id: "",
+			character_id: "",
+			world_id: "",
+			abstract: "",
+			note: ""
+		};
+	},
 
-    deletePanel: function(index) {
-      if (confirm("削除しますか？")) {
-        this.DELETE_ACTION(index);
-      }
-    },
+	methods: {
+		...mapActions([types.ADD_ACTION, types.DELETE_ACTION]),
+		...mapGetters(["getCongratsById"]),
 
-    refToModalOpen() {
-      this.$refs.modal.openModal();
-    },
+		deletePanel: function(index) {
+			if (confirm("削除しますか？")) {
+				this.DELETE_ACTION(index);
+			}
+		},
 
-    resetActionModal() {
-      console.log("resetActionModal is working");
-    },
+		refToModalOpen() {
+			this.$refs.modal.openModal();
+		},
 
-    showCongrats(id) {
-      this.show_congrats = true;
+		resetCongrats() {
+			this.show_congrats = false;
+		},
 
-      this.current_congrats = getCongratsById(id);
-    },
+		resetActionModal() {
+			console.log("resetActionModal is working");
+		},
 
-    showEncouragement() {
-      this.show_encouragement = true;
-    }
-  },
+		showCongrats() {
+			this.show_congrats = true;
+		},
 
-  computed: {
-    ...mapState([
-      "actions",
-      "characters",
-      "worlds",
-      "function31s",
-      "congrats",
-      "nextActionId",
-      "nextCharacterId",
-      "nextWorldId",
-      "nextWorldId"
-    ]),
+		showEncouragement() {
+			this.show_encouragement = true;
+		}
+	},
 
-    ...mapGetters([
-      "getActionById",
-      "getCharacterById",
-      "getWorldById",
-      "getFunction31ById",
+	computed: {
+		...mapState([
+			"actions",
+			"characters",
+			"worlds",
+			"function31s",
+			"congrats",
+			"nextActionId",
+			"nextCharacterId",
+			"nextWorldId",
+			"nextWorldId"
+		]),
 
-      "getCharacterNameById",
-      "getWorldNameById",
-      "getWorldLightById",
-      "getWorldSoundById",
-      "getFunction31NameById"
-    ]),
+		...mapGetters([
+			"getActionById",
+			"getCharacterById",
+			"getWorldById",
+			"getFunction31ById",
 
-    // パネル追加時に機能idでソート
-    // _.function は lodash というライブラリのもの
-    // sortByは破壊的(配列を上書きする)な昇順ソート処理
-    getActionsSortByFunction31Id() {
-      return _.sortBy(this.actions, ["function31_id"]);
-    }
-  }
+			"getCharacterNameById",
+			"getWorldNameById",
+			"getWorldLightById",
+			"getWorldSoundById",
+			"getFunction31NameById",
+			"getFunction31DescriptionById"
+		]),
+
+		// パネル追加時に機能idでソート
+		// _.function は lodash というライブラリのもの
+		// sortByは破壊的(配列を上書きする)な昇順ソート処理
+		getActionsSortByFunction31Id() {
+			return _.sortBy(this.actions, ["function31_id"]);
+		}
+	}
 };
 </script>
+
+<style lang="stylus">
+.v-dialog {
+	margin-top: 92px !important;
+}
+</style>
+
+<style lang="stylus" scoped>
+.v-dialog {
+	margin-top: 92px !important;
+}
+</style>
+
