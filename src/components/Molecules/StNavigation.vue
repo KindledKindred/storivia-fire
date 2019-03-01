@@ -1,7 +1,7 @@
 <template lang="pug">
 	v-toolbar(fixed dark color="secondary")
-		v-toolbar-title.headline.text-uppercase
-			span STORIVIA
+		v-toolbar-title.mr-3.headline.text-uppercase
+			router-link(to="/") STORIVIA
 		v-toolbar-items
 			span
 			v-btn(flat @click="$emit('trans', 'StActionBoard')") Action
@@ -17,8 +17,16 @@
 
 <script>
 export default {
-  name: "StNavigation",
+	name: "StNavigation",
 
-  props: ["currentBoard"]
+	props: ["currentBoard"]
 };
 </script>
+
+<style lang="stylus" scoped>
+a {
+	color: white;
+	text-decoration: none;
+}
+</style>
+

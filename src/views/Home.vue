@@ -1,16 +1,16 @@
 <template lang="pug">
-	StPlotTemplate
+	StHomeTemplate
 </template>
 
 <script>
-import StPlotTemplate from "@/components/Templates/StPlotTemplate";
+import StHomeTemplate from "@/components/Templates/StHomeTemplate";
 
 export default {
-  name: "Home",
+	name: "Home",
 
-  components: {
-    StPlotTemplate
-  }
+	components: {
+		StHomeTemplate
+	}
 };
 </script>
 
