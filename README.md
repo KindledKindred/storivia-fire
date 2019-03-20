@@ -114,7 +114,7 @@ feedback.id と action.function31_id は概ね１：１対応です．
 ## デザイン
 
 使いやすく目的がはっきりと伝わるものを良いデザインとします．
-「Atomic デザイン」や「Material デザイン」に聞き覚えがないならば`README_tech.md`へどうぞ．
+「Atomic デザイン」や「Material デザイン」に聞き覚えがないならば`README_TECH.md`へどうぞ．
 
 ### Atomic デザイン
 
