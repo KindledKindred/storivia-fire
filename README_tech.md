@@ -134,6 +134,7 @@ Sass と Less の長所を取り入れた CSS プリプロセッサです．
 配列やオブジェクトであれば要素やプロパティを追加できます．
 
 アロー関数は後述する Vue と相性が悪い部分があるので注意してください．
+具体的には，Vue インスタンス直下の data や method 宣言にアローを用いると，this が undefined に束縛されエラーを吐きます．
 
 #### クラス構文とコンポーネント
 
@@ -177,43 +178,78 @@ Nuxt.js がデフォルトで提供しているモードでもあります．
 ### 単一ファイルコンポーネント
 
 html, css, js がまとまって１つのファイルに存在します．
-また css は例のように scoped をつけることで名前空間を汚染しなくなります．
+また css は下記のように scoped をつけることで名前空間を汚染しなくなります．
 
 ```pug
 article
   //- '{{}}'はリアクティブなテキスト
+  //- コンポーネント内のデータから取得
   p {{ message }}
-  //- '@'は'v-on'の省略記法ですが'@click'で覚えてしまえばいいです．
+  //- 後述するVuexのstore.state（json形式のデータベースのようなもの）内から取得
+  //- 詳細：https://vuex.vuejs.org/ja/guide/state.html
+  p User: {{ getCurrentUserByUid(current_uid) }}
+
+  //- v-for でループさせることもできます
+  //- sampleなので簡単に表現しています．詳細は https://vuetifyjs.com/ja/components/lists を参照
+  v-list-tile(v-for='user in users' :key='user.id' :to='user.link')
+    v-list-tile-avatar
+      img(:src='user.avatar')
+
+  //- '@'は'v-on'の省略記法ですが'@click'で覚えてしまえばよく，クリック時に関数を呼び出します．
   button(@click="openModal")
 
-  //- 他のコンポーネントをコール
+  //- 他のコンポーネント（ここではSampleModal）をコール
   SampleModal
+    //- SampleModal内で'template(slot="header)'を宣言している箇所に 'Hello Vue!' が入ります．
     slot(name="header") Hello Vue!
-    //- 'v-model'は双方向バインディング，今回はmessageをリアルタイムに更新．
+    //- 'v-model'は双方向バインディング，今回はmessageをリアルタイムに更新
     input(v-model="message" placeholder="input message...")
 ```
 
 ```js
+// SampleModalの読み込み
 import SampleModal from '@/components/Molecules/SampleModal'
 
 export default {
+    // このコンポーネントを’SampleHome'と命名
     name: 'SampleHome',
 
-    data () { // アロー関数はthisをundefinedに束縛するので使用不可
+    // コンポーネントが持つデータを定義
+    data () { // ここでのアロー関数はthisをundefinedに束縛するので使用不可
       return {
+        current_uid: 1,
         message: 'default message',
         showModal: false
       }
     },
 
+    // このコンポーネントが保持する子コンポーネントを宣言（読み込むだけでは使えず，ここで宣言する必要あり）
     components: {
         SampleModal
-    }
+    },
 
     methods () {
         openModal: () => {
             showModal = true
         }
+    },
+
+    // 変更があったときだけ再計算されるプロパティ
+    // 常時監視したいという特別なケースではcomputedではなくwatchを使用
+    computed () {
+      // mapStateはstore.state内の名前が合致したステートを1つのオブジェクトとして返します．
+      // ...はオブジェクトスプレッド演算子で，mapStateで返されるオブジェクトを1つに連結します．
+      // 詳細：https://vuex.vuejs.org/ja/guide/state.html
+      ...mapState([
+        "users"
+        "unused_state" // 説明のためのステート，今回は未使用
+      ]),
+
+      // store内のgetter（stateを任意に操作して返す関数）も同様に取得できます．
+      // 詳細：https://vuex.vuejs.org/ja/guide/getters.html
+      ...mapGetters([
+        "getCurrentUserByUid"
+      ])
     }
 }
 
@@ -227,6 +263,7 @@ export default {
 
 ```pug
 <template lang="stylus scoped">
+  //- ここで宣言されるstylusはこのコンポーネント内でしか作用せず，グローバルな名前空間を汚染しません．
 </template>
 ```
 
@@ -247,6 +284,8 @@ History モードはホームルートの#除去をするものだと思って�
 
 ## Vuex
 
+[公式ページ](https://vuex.vuejs.org/ja/)
+
 データ管理ライブラリ．
 「データの一元管理」という設計思想を持ちます．
 慣れないうちは「VuexCycle」の画像を開きながら設計してください．
@@ -255,13 +294,12 @@ History モードはホームルートの#除去をするものだと思って�
 
 CSS を書かずにデザインができるライブラリ．
 [公式ページ](https://vuetifyjs.com/ja/)のドキュメントを見つつ
-「Vuetify Accordion」とかでググるのが早いです．
+「Vuetify Accordion」等でググるのが早いです．
 Bootstrap 等の CSS フレームワークを触った方ならすぐ慣れると思いますが，
 Grid が 12 を超えてもラップしないと改行されないなどの違いもあります．
 
 Bootstrap や Foundation との違いは，Vue との親和性はもちろん
-`v-`のカスタムタグによる名前空間の衝突防止，
-非常に美しいマテリアルデザインが挙げられます．
+`v-`のカスタムタグによる名前空間の衝突防止，マテリアルデザイン，非 jQuery による Vue との親和性の高さが挙げられます．
 デザインの詳細は[このブログ記事](http://fladdict.net/blog/2015/05/material-design.html)でざっくり把握した後
 興味があれば[マテリアルデザイン公式ページ](https://material.io/)も見るといいでしょう．
 
@@ -310,5 +348,8 @@ Web に公開します．
 Progressive Web Apps.
 ネイティブアプリのような振る舞いをする Web アプリのこと．
 
-基本的にコードをいじることはないと思いますが
-働きをざっくりと説明しておきます．
+実装しようと思っていましたが時間が足りなかったので放置しています．
+`registerServiceWorker.js`等のファイルが PWA 関連のものです．
+未実装ですし，今回は LocalStorage を使用する関係で不要となった機能です．
+
+実装する場合，Web 版 と アプリ版 で同じ Storage を使用する処理を記述してください．

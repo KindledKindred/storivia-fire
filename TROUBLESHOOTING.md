@@ -37,8 +37,6 @@ v-XXX-items
 
 `v-spacer`は items 等の中の要素として認識されません．
 
-### v-textarea で Vuex にデータを投げられない
-
 ## Node Error
 
 ### UnhandledPromiseRejectionWarning
@@ -51,3 +49,6 @@ VScode 左下の「Spaces: 2」等を「タブによるインデント」に変�
 `と'を間違えているかもしれません．
 このタイプミスは補完が効かないうえ似ているので見落としがちです．
 「まさか」と思うミスですが Windows ユーザーがたまに Mac を使うと発生しました．
+
+unexpected token { のように表示されていれば，括弧が正しい位置で閉じられていないか，
+括弧の上側でセミコロンやカンマが抜けている可能性があります．
